@@ -74,7 +74,13 @@ function init() {
             resetGame();
         }
         if (e.code === 'Space' && canJump && !goalReached) {
-            ballBody.applyImpulse(new CANNON.Vec3(0, 25, 0), ballBody.position);
+            const jumpDir = new CANNON.Vec3(0, 0, 0);
+            if (keys['arrowup'] || keys['w']) jumpDir.z -= 1;
+            if (keys['arrowdown'] || keys['s']) jumpDir.z += 1;
+            if (keys['arrowleft'] || keys['a']) jumpDir.x -= 1;
+            if (keys['arrowright'] || keys['d']) jumpDir.x += 1;
+            if (jumpDir.length() > 0) jumpDir.normalize();
+            ballBody.applyImpulse(new CANNON.Vec3(jumpDir.x * 14, 30, jumpDir.z * 14), ballBody.position);
             canJump = false;
         }
     });
