@@ -49,10 +49,10 @@ function init() {
 
     // Ball
     const ballShape = new CANNON.Sphere(1);
-    ballBody = new CANNON.Body({ mass: 5, shape: ballShape });
+    ballBody = new CANNON.Body({ mass: 3, shape: ballShape });
     ballBody.position.copy(startPos);
-    ballBody.linearDamping = 0.4;
-    ballBody.angularDamping = 0.4;
+    ballBody.linearDamping = 0.6;
+    ballBody.angularDamping = 0.6;
     world.addBody(ballBody);
 
     const ballGeo = new THREE.SphereGeometry(1, 32, 32);
