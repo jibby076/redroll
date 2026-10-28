@@ -80,7 +80,7 @@ function init() {
             if (keys['arrowleft'] || keys['a']) jumpDir.x -= 1;
             if (keys['arrowright'] || keys['d']) jumpDir.x += 1;
             if (jumpDir.length() > 0) jumpDir.normalize();
-            ballBody.applyImpulse(new CANNON.Vec3(jumpDir.x * 20, 40, jumpDir.z * 20), ballBody.position);
+            ballBody.applyImpulse(new CANNON.Vec3(jumpDir.x * 25, 45, jumpDir.z * 25), ballBody.position);
             canJump = false;
         }
     });
