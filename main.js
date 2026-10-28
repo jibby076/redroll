@@ -80,7 +80,7 @@ function init() {
             if (keys['arrowleft'] || keys['a']) jumpDir.x -= 1;
             if (keys['arrowright'] || keys['d']) jumpDir.x += 1;
             if (jumpDir.length() > 0) jumpDir.normalize();
-            ballBody.applyImpulse(new CANNON.Vec3(jumpDir.x * 30, 50, jumpDir.z * 30), ballBody.position);
+            ballBody.applyImpulse(new CANNON.Vec3(jumpDir.x * 20, 35, jumpDir.z * 20), ballBody.position);
         }
     });
     document.addEventListener('keyup', (e) => {
@@ -160,7 +160,7 @@ function updatePhysics() {
         return;
     }
 
-    const force = 15;
+    const force = 12;
     if (keys['arrowup'] || keys['w']) {
         ballBody.applyForce(new CANNON.Vec3(0, 0, -force), ballBody.position);
     }
