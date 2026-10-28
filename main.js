@@ -177,11 +177,10 @@ function updatePhysics() {
 
     // Ground check for jumping using contacts
     canJump = false;
-    for (let i = 0; i < world.contacts.length; i++) {
-        const contact = world.contacts[i];
-        if (contact.bi.id === ballBody.id || contact.bj.id === ballBody.id) {
-            const other = contact.bi.id === ballBody.id ? contact.bj : contact.bi;
-            if (other.type === CANNON.Body.STATIC) {
+    if (ballBody.position.y < 5) {
+        for (let i = 0; i < world.contacts.length; i++) {
+            const contact = world.contacts[i];
+            if (contact.bi.id === ballBody.id || contact.bj.id === ballBody.id) {
                 const normal = contact.bi.id === ballBody.id ? contact.ni : new CANNON.Vec3(-contact.ni.x, -contact.ni.y, -contact.ni.z);
                 if (normal.y > 0.3) {
                     canJump = true;
