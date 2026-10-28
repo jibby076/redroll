@@ -180,13 +180,13 @@ function updatePhysics() {
     for (let i = 0; i < world.contacts.length; i++) {
         const contact = world.contacts[i];
         if (contact.bi.id === ballBody.id || contact.bj.id === ballBody.id) {
-            let normal = contact.ni;
-            if (contact.bj.id === ballBody.id) {
-                normal = new CANNON.Vec3(-contact.ni.x, -contact.ni.y, -contact.ni.z);
-            }
-            if (normal.y > 0.5) {
-                canJump = true;
-                break;
+            const other = contact.bi.id === ballBody.id ? contact.bj : contact.bi;
+            if (other.type === CANNON.Body.STATIC) {
+                const normal = contact.bi.id === ballBody.id ? contact.ni : new CANNON.Vec3(-contact.ni.x, -contact.ni.y, -contact.ni.z);
+                if (normal.y > 0.3) {
+                    canJump = true;
+                    break;
+                }
             }
         }
     }
