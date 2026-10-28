@@ -175,17 +175,21 @@ function updatePhysics() {
         ballBody.applyForce(new CANNON.Vec3(force, 0, 0), ballBody.position);
     }
 
-    // Ground check for jumping
-    const rayFrom = ballBody.position.clone();
-    const rayTo = ballBody.position.clone();
-    rayTo.y -= 1.2;
-    const ray = new CANNON.Ray(rayFrom, rayTo);
-    ray.intersectWorld(world, {
-        mode: CANNON.Ray.CLOSEST,
-        checkCollisionResponse: true,
-        skipBackfaces: true
-    });
-    canJump = ray.hasHit && Math.abs(ballBody.velocity.y) < 0.5;
+    // Ground check for jumping using contacts
+    canJump = false;
+    for (let i = 0; i < world.contacts.length; i++) {
+        const contact = world.contacts[i];
+        if (contact.bi.id === ballBody.id || contact.bj.id === ballBody.id) {
+            let normal = contact.ni;
+            if (contact.bj.id === ballBody.id) {
+                normal = new CANNON.Vec3(-contact.ni.x, -contact.ni.y, -contact.ni.z);
+            }
+            if (normal.y > 0.5) {
+                canJump = true;
+                break;
+            }
+        }
+    }
 
     // Check if fallen off
     if (ballBody.position.y < -10) {
