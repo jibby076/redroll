@@ -73,15 +73,14 @@ function init() {
         if (e.key.toLowerCase() === 'r' && goalReached) {
             resetGame();
         }
-        if (e.code === 'Space' && canJump && !goalReached) {
+        if (e.code === 'Space' && !goalReached) {
             const jumpDir = new CANNON.Vec3(0, 0, 0);
             if (keys['arrowup'] || keys['w']) jumpDir.z -= 1;
             if (keys['arrowdown'] || keys['s']) jumpDir.z += 1;
             if (keys['arrowleft'] || keys['a']) jumpDir.x -= 1;
             if (keys['arrowright'] || keys['d']) jumpDir.x += 1;
             if (jumpDir.length() > 0) jumpDir.normalize();
-            ballBody.applyImpulse(new CANNON.Vec3(jumpDir.x * 25, 45, jumpDir.z * 25), ballBody.position);
-            canJump = false;
+            ballBody.applyImpulse(new CANNON.Vec3(jumpDir.x * 30, 50, jumpDir.z * 30), ballBody.position);
         }
     });
     document.addEventListener('keyup', (e) => {
