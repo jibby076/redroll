@@ -105,14 +105,15 @@ function createPlatform(x, y, z, width, depth) {
 
 function createLevel() {
     // Starting platform
-    createPlatform(0, 0, 0, 8, 8);
+    createPlatform(0, 0, 0, 10, 10);
     
-    // Path to goal
-    createPlatform(0, 0, -12, 6, 8);
-    createPlatform(2, 1, -22, 4, 6);
-    createPlatform(-2, 2, -30, 4, 6);
-    createPlatform(0, 3, -40, 6, 8);
-    createPlatform(0, 3, -52, 10, 6);
+    // Path to goal - closer platforms for easier jumping
+    createPlatform(0, 0, -10, 8, 6);
+    createPlatform(0, 0.5, -18, 7, 6);
+    createPlatform(0, 1, -26, 7, 6);
+    createPlatform(0, 1.5, -34, 6, 6);
+    createPlatform(0, 2, -42, 6, 6);
+    createPlatform(0, 2.5, -50, 8, 6);
 }
 
 function createGoal() {
