@@ -8,6 +8,7 @@ let platforms = [];
 let goalMesh, goalBody;
 let goalReached = false;
 let keys = {};
+let canJump = false;
 
 const startPos = new CANNON.Vec3(0, 5, 0);
 
@@ -71,6 +72,10 @@ function init() {
         keys[e.key.toLowerCase()] = true;
         if (e.key.toLowerCase() === 'r' && goalReached) {
             resetGame();
+        }
+        if (e.code === 'Space' && canJump && !goalReached) {
+            ballBody.applyImpulse(new CANNON.Vec3(0, 25, 0), ballBody.position);
+            canJump = false;
         }
     });
     document.addEventListener('keyup', (e) => {
@@ -144,7 +149,10 @@ function onWindowResize() {
 }
 
 function updatePhysics() {
-    if (goalReached) return;
+    if (goalReached) {
+        world.fixedStep();
+        return;
+    }
 
     const force = 15;
     if (keys['arrowup'] || keys['w']) {
@@ -159,6 +167,18 @@ function updatePhysics() {
     if (keys['arrowright'] || keys['d']) {
         ballBody.applyForce(new CANNON.Vec3(force, 0, 0), ballBody.position);
     }
+
+    // Ground check for jumping
+    const rayFrom = ballBody.position.clone();
+    const rayTo = ballBody.position.clone();
+    rayTo.y -= 1.2;
+    const ray = new CANNON.Ray(rayFrom, rayTo);
+    ray.intersectWorld(world, {
+        mode: CANNON.Ray.CLOSEST,
+        checkCollisionResponse: true,
+        skipBackfaces: true
+    });
+    canJump = ray.hasHit && Math.abs(ballBody.velocity.y) < 0.5;
 
     // Check if fallen off
     if (ballBody.position.y < -10) {
