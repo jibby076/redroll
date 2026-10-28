@@ -49,10 +49,10 @@ function init() {
 
     // Ball
     const ballShape = new CANNON.Sphere(1);
-    ballBody = new CANNON.Body({ mass: 3, shape: ballShape });
+    ballBody = new CANNON.Body({ mass: 2, shape: ballShape });
     ballBody.position.copy(startPos);
-    ballBody.linearDamping = 0.6;
-    ballBody.angularDamping = 0.6;
+    ballBody.linearDamping = 0.5;
+    ballBody.angularDamping = 0.8;
     world.addBody(ballBody);
 
     const ballGeo = new THREE.SphereGeometry(1, 32, 32);
@@ -80,7 +80,7 @@ function init() {
             if (keys['arrowleft'] || keys['a']) jumpDir.x -= 1;
             if (keys['arrowright'] || keys['d']) jumpDir.x += 1;
             if (jumpDir.length() > 0) jumpDir.normalize();
-            ballBody.applyImpulse(new CANNON.Vec3(jumpDir.x * 20, 35, jumpDir.z * 20), ballBody.position);
+            ballBody.applyImpulse(new CANNON.Vec3(jumpDir.x * 12, 28, jumpDir.z * 12), ballBody.position);
         }
     });
     document.addEventListener('keyup', (e) => {
@@ -160,7 +160,7 @@ function updatePhysics() {
         return;
     }
 
-    const force = 12;
+    const force = 8;
     if (keys['arrowup'] || keys['w']) {
         ballBody.applyForce(new CANNON.Vec3(0, 0, -force), ballBody.position);
     }
